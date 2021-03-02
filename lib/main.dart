@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'quizbrain.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 QuizBrain quizBrain = QuizBrain();
 
@@ -33,25 +34,31 @@ class _QuizPageState extends State<QuizPage> {
   void checkAnswer(bool userPickedAnswer) {
     bool correctAnswer = quizBrain.getQuestionAnswer();
     setState(() {
-      if (correctAnswer == userPickedAnswer) {
-        print('User picked right answer');
-        scoreKeeper.add(
-          Icon(
-            Icons.check,
-            color: Colors.green,
-          ),
-        );
+      if (quizBrain.isFinished()) {
+        Alert(context: context, title: "RFLUTTER", desc: "GAME OVER").show();
+        quizBrain.reset();
+        scoreKeeper = [];
       } else {
-        print('User picked wrong answer');
-        scoreKeeper.add(
-          Icon(
-            Icons.clear,
-            color: Colors.red,
-          ),
-        );
-      }
+        if (correctAnswer == userPickedAnswer) {
+          print('User picked right answer');
+          scoreKeeper.add(
+            Icon(
+              Icons.check,
+              color: Colors.green,
+            ),
+          );
+        } else {
+          print('User picked wrong answer');
+          scoreKeeper.add(
+            Icon(
+              Icons.clear,
+              color: Colors.red,
+            ),
+          );
+        }
 
-      quizBrain.nextQuestion();
+        quizBrain.nextQuestion();
+      }
     });
   }
 
