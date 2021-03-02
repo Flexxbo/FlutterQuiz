@@ -35,7 +35,11 @@ class _QuizPageState extends State<QuizPage> {
     bool correctAnswer = quizBrain.getQuestionAnswer();
     setState(() {
       if (quizBrain.isFinished()) {
-        Alert(context: context, title: "RFLUTTER", desc: "GAME OVER").show();
+        Alert(
+                context: context,
+                title: "You Lost Even If You Won",
+                desc: "GAME OVER")
+            .show();
         quizBrain.reset();
         scoreKeeper = [];
       } else {
